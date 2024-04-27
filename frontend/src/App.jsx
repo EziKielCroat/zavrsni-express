@@ -1,34 +1,39 @@
-import { BrowserRouter, Routes,Route } from "react-router-dom";
 
-const RequireAuthentication = () => {
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-  return true;
+import Register from "./Components/Register/Register";
+import Login from "./Components/Login/Login";
+import Home from "./Components/Home/Home";
+
+const RequireAuthentication = ({ children }) => {
+  console.log(localStorage.getItem("token"));
+  const isAuthenticated = localStorage.getItem("token");
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
-const RequireAuthorization = () => {
-
-  return true;
+const RequireAuthorization = ({ children }) => {
+  const isAuthorized = true;
+  return isAuthorized ? children : <Navigate to="/login" />;
 };
 
 function App() {
-
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
 
-      <Route element={<RequireAuthentication />}> 
-        <Route path="/" element={<Home />}/>
-        <Route path="/aboutus" element={<AboutUs />}/>
-        <Route path="/donations" element={<Donations />}/>
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/settings" element={<AccountSettings />} />
-      </Route>
-
-      <Route element={<RequireAuthorization />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Route>
+          <Route path="/" element={<RequireAuthentication><Home /></RequireAuthentication>} />
+          {/* <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/donations" element={<Donations />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/settings" element={<AccountSettings />} /> */}
+        
+        <Route
+          element={<RequireAuthorization />}
+        >
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        </Route>
 
     </Routes>
     </BrowserRouter>

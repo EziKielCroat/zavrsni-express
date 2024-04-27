@@ -9,6 +9,8 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt";
 
 import { dbConnection } from "./db.js";
+import { Korisnik } from "./schemas.js";
+import { verifyToken } from "./middleware.js";
 
 const app = express();
 
@@ -22,6 +24,39 @@ app.use(cookieParser());
 
 const db = dbConnection();
 const PORT = process.env.APP_PORT || 3000;
+const SECRET_KEY = process.env.SECRET_KEY || "tajniKljuc";
+const saltRunde = 15;
+
+app.get('/protected-route', verifyToken, (req, res) => {
+    // Ova ruta se koristi kako bi provjerili jeli korisnik ulogiran
+    const user = req.user;
+    res.status(201).send('User: ' + user.username);
+});
+
+app.post("/register", async (req, res) => {
+    try {
+        const hashLozinka = await bcrypt.hash(req.body.password, saltRunde);
+        const noviKorisnik = new Korisnik({ ...req.body, password: hashLozinka });
+        await noviKorisnik.save();
+        res.status(201).send('Korisnik uspješno registriran');
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+});
+
+app.post("/login", async (req, res) => {
+    try {
+        const korisnikBaza = await Korisnik.findOne({ email: req.body.email });
+        if (korisnikBaza && await bcrypt.compare(req.body.password, korisnikBaza.password)) {
+            const token = jwt.sign({ idKorisnika: korisnikBaza.username, uloga: korisnikBaza.role }, SECRET_KEY, { expiresIn: '1h' });
+            res.json({ token });
+        } else {
+          res.status(401).send('Neispravni podaci za prijavu');
+        }
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+});
 
 // schemes should be defined in seperate file
 
