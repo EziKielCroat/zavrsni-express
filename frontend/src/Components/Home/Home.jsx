@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Navbar from "../Shared/Navbar";
+import DisplayAnimals from "./DisplayAnimals";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -19,6 +20,7 @@ function Home() {
   return (
     <Wrapper>
       <Navbar />
+      <DisplayAnimals />
     </Wrapper>
   );
 }
