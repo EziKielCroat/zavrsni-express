@@ -10,13 +10,13 @@ import bcrypt from "bcrypt";
 
 import { dbConnection } from "./db.js";
 import { Korisnik } from "./schemas.js";
-import { verifyToken } from "./middleware.js";
+import { verifyToken, verifyRole } from "./middleware.js";
 
 const app = express();
 
 // middleware
 
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -27,9 +27,8 @@ const PORT = process.env.APP_PORT || 3000;
 const SECRET_KEY = process.env.SECRET_KEY || "tajniKljuc";
 const saltRunde = 15;
 
-app.get('/protected-route', verifyToken, (req, res) => {
+app.get('/protected-route', verifyRole("admin"), (req, res) => {
     // Ova ruta se koristi kako bi provjerili jeli korisnik ulogiran
-    const user = req.user;
     res.status(201).send('User: ' + user.username);
 });
 
