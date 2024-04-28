@@ -29,11 +29,21 @@ const LinksContainer = styled.div`
 
     a {
         text-decoration: none;
+        color: #2d2537;
+        transition: 0.2s linear scale;
+
+        &:hover {
+            font-weight: bold;
+            scale: 1.2;
+        }
     }
 
     .active {
         user-select: none;
         cursor: default;
+        transition: none !important;
+        scale: unset !important;
+        font-weight: bold !important;
     }
 `;
 

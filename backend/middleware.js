@@ -1,27 +1,26 @@
-
-const SECRET_KEY = process.env.SECRET_KEY || "tajniKljuc";
+import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "./server.js";
 
 export const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization;
-    if (!token) return res.status(401).send('No token provided.');
+    const authZaglavlje = req.headers['authorization'];
+    if (!authZaglavlje) return res.status(403).send('Ne postoji autorizacijsko zaglavlje');
+   
+    const token = authZaglavlje.split(' ')[1];
+    if (!token) return res.status(403).send('Bearer token nije pronađen');
+
     try {
-        const decoded = jwt.verify(token, SECRET_KEY);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        res.status(400).send('Invalid token.');
+      const dekodiraniToken = jwt.verify(token, SECRET_KEY); 
+      req.korisnik = dekodiraniToken;
+    } catch (err) {
+      return res.status(401).send('Neispravni Token');
     }
+    return next();
 };
 
 export const verifyRole = (verifiedRole) => (req, res, next) => {
-    const token = req.headers.authorization.split(" ")[1];
-    if (!token) return res.status(401).send('No token provided.');
-    try {
-        const decoded = jwt.verify(token, SECRET_KEY); // ova linija je problem
-        if(decoded.role === verifiedRole) {
-            res.status(201).send('Korisnik smije pristupiti ovom resorsu');
-        }
-    } catch (error) {
-        res.status(400).send('Invalid token.');
-    }
+    if (req.korisnik && req.korisnik.uloga === verifiedRole) {
+        next();
+      } else {
+        res.status(403).send(`Zabranjen pristup - vaša uloga je ${req.korisnik.uloga} `);
+      }
 }

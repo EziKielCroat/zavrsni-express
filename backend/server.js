@@ -24,12 +24,12 @@ app.use(cookieParser());
 
 const db = dbConnection();
 const PORT = process.env.APP_PORT || 3000;
-const SECRET_KEY = process.env.SECRET_KEY || "tajniKljuc";
+export const SECRET_KEY = process.env.SECRET_KEY || "tajniKljuc";
 const saltRunde = 15;
 
-app.get('/protected-route', verifyRole("admin"), (req, res) => {
+app.get('/protected-route', verifyToken, verifyRole("admin"), (req, res) => {
     // Ova ruta se koristi kako bi provjerili jeli korisnik ulogiran
-    res.status(201).send('User: ' + user.username);
+    res.status(201).send(true);
 });
 
 app.post("/register", async (req, res) => {
