@@ -16,7 +16,10 @@ const Wrapper = styled.div`
 
 
 function Home () {
-
+// filtriraj po statusu udomljenosti i po vrsti zivotinje
+// grdi prikazi sve zivotinje (mozda slika za svaku)
+// udomi me ispod neudomljenih
+// navbar je gori bitan(napravit neki comp s kojin na svin pageovima koristin isti navbar componentu)
     return(
         <Wrapper>
             home
