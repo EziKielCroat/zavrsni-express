@@ -26,6 +26,15 @@ const notifikacijaSchema = new Schema({
     notificationImportant: { type: Boolean, required: true }, 
 });
 
+const zivotinjaSchema = new Schema ({ 
+    name: { type: String, required: true }, 
+    type: {type: String, required: true, enum: ['Pas', 'Macka', 'Ptica', 'Gmizavac', 'Ostalo'] }, 
+    age: { type: Number, required: true }, 
+    description: { type: String, required: true }, 
+    chipped: { type: Boolean, required: true }, 
+    lastCheckup: { type: Date, required: true } 
+});
+
 export const Korisnik = model("Korisnik", korisnikShema, "korisnici");
 
 export const Upit = model("Upiti", upitKorisnikaSchema, "upiti");
@@ -33,3 +42,5 @@ export const Upit = model("Upiti", upitKorisnikaSchema, "upiti");
 export const Donacija = model("Donacije", donacijaSchema, "donacije");
 
 export const Notifikacija = model("Notifikacije", notifikacijaSchema, "notifikacije");
+
+export const Zivotinja = model("Zivotinje", zivotinjaSchema, "zivotinje");

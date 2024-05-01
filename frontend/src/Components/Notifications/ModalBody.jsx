@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Input, Button } from "../Register/Register";
 import { useState } from "react";
 
-const Label = styled.p`
+export const Label = styled.p`
   font-size: 14px;
   color: #483c58;
 `;

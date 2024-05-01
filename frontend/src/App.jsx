@@ -8,6 +8,7 @@ import Home from "./Components/Home/Home";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import Donations from "./Components/Donations/Donations";
 import Notifications from "./Components/Notifications/Notifications";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -89,14 +90,14 @@ function App() {
           />
           {/* <Route path="/settings" element={<AccountSettings />} /> */}
 
-          {/* <Route
+          <Route
             path="/dashboard"
             element={
               <RequireAuthorization>
-                <Home />
+                <Dashboard />
               </RequireAuthorization>
             }
-          /> */}
+          />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

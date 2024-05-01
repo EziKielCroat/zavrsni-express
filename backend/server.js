@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt";
 
 import { dbConnection } from "./db.js";
-import { Korisnik, Upit, Donacija, Notifikacija } from "./schemas.js";
+import { Korisnik, Upit, Donacija, Notifikacija, Zivotinja } from "./schemas.js";
 import { verifyToken, verifyRole } from "./middleware.js";
 
 const app = express();
@@ -137,6 +137,26 @@ app.get("/notifications", async (req, res) => {
     const sveNotifikacije = await Notifikacija.find({});
 
     res.send({ sveNotifikacije });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post("/animals", async (req, res) => {
+  try {
+    const novaZivotinja = new Zivotinja({ ...req.body });
+    await novaZivotinja.save();
+    res.status(201).send('Zivotinja uspješno upisana');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/animals", async (req, res) => {
+  try {
+    const sveZivotinje = await Zivotinja.find({});
+
+    res.send({ sveZivotinje });
   } catch (error) {
     res.status(500).send(error.message);
   }
