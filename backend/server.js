@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt";
 
 import { dbConnection } from "./db.js";
-import { Korisnik } from "./schemas.js";
+import { Korisnik, Upit } from "./schemas.js";
 import { verifyToken, verifyRole } from "./middleware.js";
 
 const app = express();
@@ -57,11 +57,33 @@ app.post("/login", async (req, res) => {
       }
 });
 
+app.post("/requests", async (req, res) => {
+  try {
+    const noviUpit = new Upit({ ...req.body });
+    await noviUpit.save();
+    res.status(201).send('Upit uspješno registriran');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/requests", verifyToken, verifyRole("admin"), async (req, res) => {
+  try {
+    const sviUpiti = await Upit.find({});
+
+    if (sviUpiti) {
+      res.send({ sviUpiti });
+    } else {
+      res.status(404).send({});
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 // schemes should be defined in seperate file
 
 // routes will be probs in folders
-
-// middleware functions shoud be in seperate file aswell
 
 app.listen(PORT, () => {
     console.log("listening on port", PORT);

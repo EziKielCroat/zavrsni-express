@@ -7,4 +7,12 @@ const korisnikShema = new Schema({
     password: String,
 });
 
+const upitKorisnikaSchema = new Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    message: { type: String, required: true },
+});
+
 export const Korisnik = model("Korisnik", korisnikShema, "korisnici");
+
+export const Upit = model("Upiti", upitKorisnikaSchema, "upiti");

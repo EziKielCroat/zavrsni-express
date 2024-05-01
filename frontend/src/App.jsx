@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./Components/Register/Register";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
+import AboutUs from "./Components/AboutUs/AboutUs";
 
 const queryClient = new QueryClient();
 
@@ -60,10 +61,10 @@ function App() {
               </RequireAuthentication>
             }
           />
-          {/* <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/donations" element={<Donations />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          {/* <Route path="/donations" element={<Donations />} />
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/settings" element={<AccountSettings />} /> */}
+        <Route path="/settings" element={<AccountSettings />} />  */}
 
           <Route
             path="/dashboard"
