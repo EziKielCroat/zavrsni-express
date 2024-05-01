@@ -20,8 +20,16 @@ const donacijaSchema = new Schema({
     donationStatus: {type: String, required: true, enum: ['offered', 'inNeed', 'donated'] }
 });
 
+const notifikacijaSchema = new Schema({
+    notificationTitle: { type: String, required: true },
+    notificationText: { type: String, required: true, minLength: 8 },
+    notificationImportant: { type: Boolean, required: true }, 
+});
+
 export const Korisnik = model("Korisnik", korisnikShema, "korisnici");
 
 export const Upit = model("Upiti", upitKorisnikaSchema, "upiti");
 
 export const Donacija = model("Donacije", donacijaSchema, "donacije");
+
+export const Notifikacija = model("Notifikacije", notifikacijaSchema, "notifikacije");

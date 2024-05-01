@@ -82,8 +82,6 @@ function ModalBody({ sendDonationDetails }) {
       >
         Upišite vašu donaciju
       </Button>
-
-      {/*select i 2 inputa*/}
     </>
   );
 }

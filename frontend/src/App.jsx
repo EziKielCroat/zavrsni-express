@@ -7,6 +7,7 @@ import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import Donations from "./Components/Donations/Donations";
+import Notifications from "./Components/Notifications/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -78,17 +79,24 @@ function App() {
               </RequireAuthentication>
             }
           />
-          {/* <Route path="/notifications" element={<Notifications />} />
-        <Route path="/settings" element={<AccountSettings />} />  */}
-
           <Route
+            path="/notifications"
+            element={
+              <RequireAuthentication>
+                <Notifications />
+              </RequireAuthentication>
+            }
+          />
+          {/* <Route path="/settings" element={<AccountSettings />} /> */}
+
+          {/* <Route
             path="/dashboard"
             element={
               <RequireAuthorization>
                 <Home />
               </RequireAuthorization>
             }
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

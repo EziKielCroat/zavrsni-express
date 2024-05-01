@@ -9,23 +9,21 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt";
 
 import { dbConnection } from "./db.js";
-import { Korisnik, Upit, Donacija } from "./schemas.js";
+import { Korisnik, Upit, Donacija, Notifikacija } from "./schemas.js";
 import { verifyToken, verifyRole } from "./middleware.js";
 
 const app = express();
-
-// middleware
 
 app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// trying to establish db connection
-
 const db = dbConnection();
+
 const PORT = process.env.APP_PORT || 3000;
-export const SECRET_KEY = process.env.SECRET_KEY || "tajniKljuc";
 const saltRunde = 15;
+
+export const SECRET_KEY = process.env.SECRET_KEY || "tajniKljuc";
 
 app.get('/protected-route', verifyToken, verifyRole("admin"), (req, res) => {
     // Ova ruta se koristi kako bi provjerili jeli korisnik ulogiran
@@ -124,7 +122,25 @@ app.patch("/donations/:id", async (req, res) => {
   }
 });
 
-// schemes should be defined in seperate file
+app.post("/notifications", async (req, res) => {
+  try {
+    const novaNotifikacija = new Notifikacija({ ...req.body });
+    await novaNotifikacija.save();
+    res.status(201).send('Notifikacija uspješno upisana');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/notifications", async (req, res) => {
+  try {
+    const sveNotifikacije = await Notifikacija.find({});
+
+    res.send({ sveNotifikacije });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 
 // routes will be probs in folders
 
