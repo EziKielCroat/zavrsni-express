@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt";
 
 import { dbConnection } from "./db.js";
-import { Korisnik, Upit } from "./schemas.js";
+import { Korisnik, Upit, Donacija } from "./schemas.js";
 import { verifyToken, verifyRole } from "./middleware.js";
 
 const app = express();
@@ -73,6 +73,49 @@ app.get("/requests", verifyToken, verifyRole("admin"), async (req, res) => {
 
     if (sviUpiti) {
       res.send({ sviUpiti });
+    } else {
+      res.status(404).send({});
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post("/donations", async (req, res) => {
+  try {
+    const novaDonacija = new Donacija({ ...req.body });
+    await novaDonacija.save();
+    res.status(201).send('Donacija uspješno registrirana');
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/donations/:type", async (req, res) => {
+  const requestedDonationType = req.params.type;
+
+  try {
+    const sveDonacijeTipa = await Donacija.find({ donationStatus: requestedDonationType });
+
+    if (sveDonacijeTipa.length > 0) {
+      res.send({ sveDonacijeTipa });
+    } else {
+      res.status(404).send({});
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.patch("/donations/:id", async (req, res) => {
+  const donationId = req.params.id;
+  const requestedDonationStatus = req.body.donationStatus;
+
+  try {
+    const donacija = await Donacija.findOneAndUpdate({ _id: donationId }, {donationStatus: requestedDonationStatus}, {new: true});
+
+    if (donacija) {
+      res.status(201).send(donacija);
     } else {
       res.status(404).send({});
     }

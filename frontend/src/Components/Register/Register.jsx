@@ -76,6 +76,10 @@ export const Button = styled.button`
   &:active {
     transform: scale(0.95);
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 function Register() {

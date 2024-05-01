@@ -6,6 +6,7 @@ import Register from "./Components/Register/Register";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import AboutUs from "./Components/AboutUs/AboutUs";
+import Donations from "./Components/Donations/Donations";
 
 const queryClient = new QueryClient();
 
@@ -61,9 +62,23 @@ function App() {
               </RequireAuthentication>
             }
           />
-          <Route path="/aboutus" element={<AboutUs />} />
-          {/* <Route path="/donations" element={<Donations />} />
-        <Route path="/notifications" element={<Notifications />} />
+          <Route
+            path="/aboutus"
+            element={
+              <RequireAuthentication>
+                <AboutUs />
+              </RequireAuthentication>
+            }
+          />
+          <Route
+            path="/donations"
+            element={
+              <RequireAuthentication>
+                <Donations />
+              </RequireAuthentication>
+            }
+          />
+          {/* <Route path="/notifications" element={<Notifications />} />
         <Route path="/settings" element={<AccountSettings />} />  */}
 
           <Route
