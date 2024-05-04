@@ -83,7 +83,7 @@ function Notifications() {
             setModalOpen(!modalOpen);
           }}
         >
-          <ModalBody sendNewNotification={sendNewNotification} />
+          <ModalBody sendNewNotification={sendNewNotification} isAdmin={false}/>
         </Modal>
       )}
     </Wrapper>

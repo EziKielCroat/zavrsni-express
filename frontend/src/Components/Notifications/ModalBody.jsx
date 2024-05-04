@@ -8,7 +8,7 @@ export const Label = styled.p`
   color: #483c58;
 `;
 
-function ModalBody({ sendNewNotification }) {
+function ModalBody({ sendNewNotification, isAdmin }) {
   const [notificationDetails, setNotificationDetails] = useState({
     notificationTitle: "",
     notificationText: "",
@@ -57,6 +57,7 @@ function ModalBody({ sendNewNotification }) {
       <Input
         type="checkbox"
         checked={notificationDetails.notificationImportant}
+        disabled={!isAdmin}
         onChange={() =>
           setNotificationDetails((prevDetails) => ({
             ...prevDetails,

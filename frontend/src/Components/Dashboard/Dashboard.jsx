@@ -7,6 +7,7 @@ import { PAGE_VALUES } from "./pageDefaults";
 import Zivotinje from "./AdminComponents/Zivotinje";
 import Upiti from "./AdminComponents/Upiti";
 import Donacije from "./AdminComponents/Donacije";
+import Notifikacije from "./AdminComponents/Notifikacije";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -65,7 +66,7 @@ const options = {
   [PAGE_VALUES.ZIVOTINJE]: Zivotinje,
   [PAGE_VALUES.UPITI]: Upiti,
   [PAGE_VALUES.DONACIJE]: Donacije,
-  //   [PAGE_VALUES.NOTIFIKACIJE]: Notifikacije,
+  [PAGE_VALUES.NOTIFIKACIJE]: Notifikacije,
 };
 
 function Dashboard() {

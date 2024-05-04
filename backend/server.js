@@ -204,6 +204,24 @@ app.get("/notifications", async (req, res) => {
   }
 });
 
+app.delete("/notifications/:id", async (req, res) => {
+  const notificationId = req.params.id;
+
+  try {
+    const notificationToDelete = await Notifikacija.findOneAndDelete({
+      _id: notificationId,
+    });
+
+    if (!notificationToDelete) {
+      return res.status(404).json({ message: "Notifikacija nije pronadena" });
+    } else {
+      res.status(200).json({ message: "Notifikacija je uspjesno izbrisana" });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 app.post("/animals", async (req, res) => {
   try {
     const novaZivotinja = new Zivotinja({ ...req.body });

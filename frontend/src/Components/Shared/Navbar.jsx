@@ -51,10 +51,10 @@ function Navbar() {
 
   const pages = {
     Home: "/",
-    "About Us": "/aboutus",
-    Donations: "/donations",
-    Notifications: "/notifications",
-    Dashboard: "/dashboard",
+    "O nama": "/aboutus",
+    "Donacije": "/donations",
+    "Notifikacije": "/notifications",
+    "Dashboard": "/dashboard",
   };
 
   return (
