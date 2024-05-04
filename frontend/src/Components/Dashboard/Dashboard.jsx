@@ -5,6 +5,7 @@ import Navbar from "../Shared/Navbar";
 import { PAGE_VALUES } from "./pageDefaults";
 
 import Zivotinje from "./AdminComponents/Zivotinje";
+import Upiti from "./AdminComponents/Upiti";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -61,7 +62,7 @@ const OptionWrapper = styled.div`
 
 const options = {
   [PAGE_VALUES.ZIVOTINJE]: Zivotinje,
-  //   [PAGE_VALUES.UPITI]: Upiti,
+  [PAGE_VALUES.UPITI]: Upiti,
   //   [PAGE_VALUES.DONACIJE]: Donacije,
   //   [PAGE_VALUES.NOTIFIKACIJE]: Notifikacije,
 };

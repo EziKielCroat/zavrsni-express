@@ -79,6 +79,22 @@ app.get("/requests", verifyToken, verifyRole("admin"), async (req, res) => {
   }
 });
 
+app.delete("/requests/:id", verifyToken, verifyRole("admin"), async (req, res) => {
+  const queryId = req.params.id;
+
+  try {
+    const queryToDelete = await Upit.findOneAndDelete({ _id: queryId });
+
+    if (!queryToDelete) {
+      return res.status(404).json({ message: "Upit nije pronaden" });
+    }
+
+    res.status(200).json({ message: "Upit uspjesno izbrisan", deletedQuery: queryToDelete });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 app.post("/donations", async (req, res) => {
   try {
     const novaDonacija = new Donacija({ ...req.body });
@@ -177,7 +193,6 @@ app.patch("/animals/:id", async (req, res) => {
       promjenjenaZivotinja[key] = changedValues[key];
     });
 
-    // Save the updated animal
     await promjenjenaZivotinja.save();
 
     res.status(200).json({ message: "Zivotinja uspjesno azurirana", animal: promjenjenaZivotinja });
