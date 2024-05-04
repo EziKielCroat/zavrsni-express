@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { Button } from "../../Register/Register";
 
 function ZivotinjePrikazi({ animals }) {
@@ -31,6 +32,14 @@ function ZivotinjePrikazi({ animals }) {
       ":",
       newAnimalDetails[animalId]
     );
+
+    axios.patch(`http://localhost:${import.meta.env.VITE_APP_PORT}/animals/${animalId}`, newAnimalDetails[animalId])
+    .then(res => {
+      alert(JSON.stringify(res.data.message));
+      location.reload();
+    })
+    .catch(err => console.error(err));  
+
     handleToggleEditing(animalId);
   };
 

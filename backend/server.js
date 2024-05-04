@@ -162,6 +162,31 @@ app.get("/animals", async (req, res) => {
   }
 });
 
+app.patch("/animals/:id", async (req, res) => {
+  const animalId = req.params.id;
+  const changedValues = req.body;
+
+  try {
+    let promjenjenaZivotinja = await Zivotinja.findById(animalId);
+
+    if (!promjenjenaZivotinja) {
+      return res.status(404).json({ message: "Zivotinja nije pronadena" });
+    }
+
+    Object.keys(changedValues).forEach(key => {
+      promjenjenaZivotinja[key] = changedValues[key];
+    });
+
+    // Save the updated animal
+    await promjenjenaZivotinja.save();
+
+    res.status(200).json({ message: "Zivotinja uspjesno azurirana", animal: promjenjenaZivotinja });
+  } catch (error) {
+    console.error("pogreska pri azuriranju: ", error);
+    res.status(500).json({ message: "progreska pri azuriranju" });
+  }
+});
+
 // routes will be probs in folders
 
 app.listen(PORT, () => {
