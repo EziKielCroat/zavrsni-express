@@ -2,30 +2,22 @@ import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import Navbar from "../Shared/Navbar";
-import Modal from "../Shared/Modal";
-import ModalBody from "./ModalBody";
-import DonationTable from "./DonationTable";
+import Modal from "../../Shared/Modal";
+import ModalBody from "../../Donations/ModalBody";
+import TrazimoDonacije from "./TrazimoDonacije";
+import NudiSeDonacije from "./NudiSeDonacije";
+import DoniranoDonacije from "./DoniranoDonacije";
 
-import { Button } from "../Register/Register";
-
-const Wrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  z-index: 999;
-`;
+import { Button } from "../../Register/Register";
 
 const DonationsWrapper = styled.div`
-  height: inherit;
+  height: 60vh;
   width: auto;
   background: #fff;
   padding: 30px;
   padding-left: 50px;
   padding-left: 50px;
+  overflow-y: auto;
 `;
 
 function Donations() {
@@ -48,7 +40,6 @@ function Donations() {
       })
       .catch((err) => {
         console.error("progreska pri upisivanju donacije: ", err);
-        // implementiraj toast
       });
   };
 
@@ -66,6 +57,23 @@ function Donations() {
       })
       .catch((err) => {
         console.error("progreska pri upisivanju donacije: ", err);
+        // implementiraj toast
+      });
+  };
+
+  const deleteDonation = (donationId) => {
+    axios
+      .delete(
+        `http://localhost:${
+          import.meta.env.VITE_APP_PORT
+        }/donations/${donationId}`
+      )
+      .then((res) => {
+        alert("Uspješno ste izbrisali donaciju!");
+        location.reload();
+      })
+      .catch((err) => {
+        console.error("progreska pri brisanju donacije: ", err);
         // implementiraj toast
       });
   };
@@ -104,9 +112,7 @@ function Donations() {
   }, []);
 
   return (
-    <Wrapper id="modal-root">
-      <Navbar />
-
+    <>
       <DonationsWrapper>
         <Button
           onClick={() => {
@@ -116,13 +122,20 @@ function Donations() {
           Donirajte!
         </Button>
 
-        <DonationTable title="Nudi se" donations={offeredDonations} />
-        <DonationTable
-          title="Traži se"
+        <TrazimoDonacije
           donations={inNeedDonations}
           updateDonationStatus={updateDonationStatus}
+          deleteDonation={deleteDonation}
         />
-        <DonationTable title="Donirano" donations={donatedDonations} />
+        <NudiSeDonacije
+          donations={offeredDonations}
+          updateDonationStatus={updateDonationStatus}
+        />
+        <DoniranoDonacije
+          donations={donatedDonations}
+          updateDonationStatus={updateDonationStatus}
+          deleteDonation={deleteDonation}
+        />
       </DonationsWrapper>
       {modalOpen && (
         <Modal
@@ -134,7 +147,7 @@ function Donations() {
           <ModalBody sendDonationDetails={sendDonationDetails} />
         </Modal>
       )}
-    </Wrapper>
+    </>
   );
 }
 

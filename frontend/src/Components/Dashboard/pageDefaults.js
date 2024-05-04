@@ -1,8 +1,6 @@
-
-
 export const PAGE_VALUES = {
-    ZIVOTINJE: "zivotinje",
-    UPITI: "upiti",
-    DONACIJE: "donacije",
-    NOTIFIKACIJE: "notifikacije",
-}
+  ZIVOTINJE: "Zivotinje",
+  UPITI: "Upiti",
+  DONACIJE: "Donacije",
+  NOTIFIKACIJE: "Notifikacije",
+};

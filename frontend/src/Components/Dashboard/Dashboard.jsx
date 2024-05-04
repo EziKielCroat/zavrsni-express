@@ -6,6 +6,7 @@ import { PAGE_VALUES } from "./pageDefaults";
 
 import Zivotinje from "./AdminComponents/Zivotinje";
 import Upiti from "./AdminComponents/Upiti";
+import Donacije from "./AdminComponents/Donacije";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -40,8 +41,8 @@ const Title = styled.p`
   display: flex;
   align-items: center;
   color: #3e2f4e;
-  font-weight: 550;
   transition: 0.2s linear scale;
+  font-weight: ${({ isActive }) => (isActive ? "600" : "400")};
 
   &:hover {
     cursor: pointer;
@@ -54,7 +55,7 @@ const OptionWrapper = styled.div`
   height: inherit;
   width: auto;
   background: #fff;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 30px;
   padding-left: 50px;
   padding-left: 50px;
@@ -63,7 +64,7 @@ const OptionWrapper = styled.div`
 const options = {
   [PAGE_VALUES.ZIVOTINJE]: Zivotinje,
   [PAGE_VALUES.UPITI]: Upiti,
-  //   [PAGE_VALUES.DONACIJE]: Donacije,
+  [PAGE_VALUES.DONACIJE]: Donacije,
   //   [PAGE_VALUES.NOTIFIKACIJE]: Notifikacije,
 };
 
@@ -82,34 +83,15 @@ function Dashboard() {
       <DisplayWrapper>
         {/*treba bit responzivno */}
         <HeaderWrapper>
-          <Title
-            onClick={() => {
-              togglePage(PAGE_VALUES.ZIVOTINJE);
-            }}
-          >
-            Životinje
-          </Title>
-          <Title
-            onClick={() => {
-              togglePage(PAGE_VALUES.UPITI);
-            }}
-          >
-            Upiti
-          </Title>
-          <Title
-            onClick={() => {
-              togglePage(PAGE_VALUES.DONACIJE);
-            }}
-          >
-            Donacije
-          </Title>
-          <Title
-            onClick={() => {
-              togglePage(PAGE_VALUES.NOTIFIKACIJE);
-            }}
-          >
-            Notifikacije
-          </Title>
+          {Object.keys(options).map((page) => (
+            <Title
+              key={page}
+              isActive={currentPage === page}
+              onClick={() => togglePage(page)}
+            >
+              {page}
+            </Title>
+          ))}
         </HeaderWrapper>
         <OptionWrapper>
           {options[currentPage] && <CurrentPageComponent />}
