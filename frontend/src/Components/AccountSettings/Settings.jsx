@@ -20,12 +20,16 @@ const SettingsWrapper = styled.div`
 
 const SettingsWindow = styled.div`
   height: 600px;
-  width: 600px;
+  width: 100%;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   border-radius: 8px;
   padding-left: 8px;
   padding-right: 8px;
+
+  @media (min-width: 760px) { 
+    width: 600px;
+  }
 `;
 
 const SettingsTitle = styled.h2`

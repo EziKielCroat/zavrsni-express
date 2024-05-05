@@ -42,6 +42,8 @@ const ContactForm = styled.div`
 const ContactInfo = styled.div`
   width: 45%;
   display: inline-block;
+  text-overflow: ellipsis;
+  overflow: auto;
 
   a {
     margin: 15px;

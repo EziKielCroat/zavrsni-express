@@ -3,7 +3,7 @@ import styled from "styled-components";
 const NotificationGrid = styled.div`
   margin-top: 15px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
 `;
 
@@ -11,6 +11,8 @@ const NotificationWrapper = styled.div`
   border: ${({ important }) =>
     important === true ? "1px solid red" : "1px solid #dddddd"};
   padding: 20px;
+  text-overflow: ellipsis;
+  overflow: auto;
 `;
 
 const NotificationTitle = styled.h3`

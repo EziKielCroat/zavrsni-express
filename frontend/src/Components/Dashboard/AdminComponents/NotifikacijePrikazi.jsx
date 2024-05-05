@@ -3,8 +3,8 @@ import styled from "styled-components";
 const NotificationGrid = styled.div`
   margin-top: 15px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
 `;
 
 const NotificationWrapper = styled.div`
