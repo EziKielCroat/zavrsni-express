@@ -106,9 +106,9 @@ function Login() {
     axios
       .post(`http://localhost:${import.meta.env.VITE_APP_PORT}/login`, userInfo)
       .then((res) => {
-        alert("Uspješno ste se ulogirali, bit će te prebaćeni na home");
         if (res.data.token) {
           localStorage.setItem("token", res.data.token);
+          alert("Uspješno ste se ulogirali, bit će te prebaćeni na home");
         }
         setUserInfo({
           username: "",
@@ -118,7 +118,7 @@ function Login() {
         });
         setTimeout(() => {
           navigate("/");
-        }, 2000);
+        }, 150);
       })
       .catch((error) => {
         console.error("Login failed:", error);

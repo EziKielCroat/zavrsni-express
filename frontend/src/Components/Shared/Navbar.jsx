@@ -54,6 +54,7 @@ function Navbar() {
     "O nama": "/aboutus",
     "Donacije": "/donations",
     "Notifikacije": "/notifications",
+    "Postavke računa": "/settings",
     "Dashboard": "/dashboard",
   };
 

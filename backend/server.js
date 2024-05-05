@@ -35,6 +35,11 @@ app.get("/protected-route", verifyToken, verifyRole("admin"), (req, res) => {
   res.status(201).send(true);
 });
 
+app.get("/user-information", verifyToken, async (req, res) => {
+  const userInformation = await Korisnik.findById(req.korisnik.idKorisnika);
+  res.status(201).send(userInformation);
+});
+
 app.post("/register", async (req, res) => {
   try {
     const hashLozinka = await bcrypt.hash(req.body.password, saltRunde);
@@ -54,7 +59,7 @@ app.post("/login", async (req, res) => {
       (await bcrypt.compare(req.body.password, korisnikBaza.password))
     ) {
       const token = jwt.sign(
-        { idKorisnika: korisnikBaza.username, uloga: korisnikBaza.role },
+        { idKorisnika: korisnikBaza._id, uloga: korisnikBaza.role },
         SECRET_KEY,
         { expiresIn: "1h" }
       );
@@ -66,6 +71,34 @@ app.post("/login", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+app.put(
+  "/user-information/:id",
+  verifyToken,
+  verifyRole("admin"),
+  async (req, res) => {
+    const userId = req.params.id;
+    const changedValues = req.body;
+
+    console.log(userId, changedValues);
+
+    try {
+      const userToBeUpdated = await Korisnik.findById(userId);
+
+      if (!userToBeUpdated) {
+        return res.status(404).send("korisnik nije pronaden");
+      }
+
+      Object.assign(userToBeUpdated, changedValues);
+
+      await userToBeUpdated.save();
+
+      res.status(201).send("korisnik uspjesno azuriran");
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
+);
 
 app.post("/requests", async (req, res) => {
   try {
@@ -105,12 +138,10 @@ app.delete(
         return res.status(404).json({ message: "Upit nije pronaden" });
       }
 
-      res
-        .status(200)
-        .json({
-          message: "Upit uspjesno izbrisan",
-          deletedQuery: queryToDelete,
-        });
+      res.status(200).json({
+        message: "Upit uspjesno izbrisan",
+        deletedQuery: queryToDelete,
+      });
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -259,12 +290,10 @@ app.patch("/animals/:id", async (req, res) => {
 
     await promjenjenaZivotinja.save();
 
-    res
-      .status(200)
-      .json({
-        message: "Zivotinja uspjesno azurirana",
-        animal: promjenjenaZivotinja,
-      });
+    res.status(200).json({
+      message: "Zivotinja uspjesno azurirana",
+      animal: promjenjenaZivotinja,
+    });
   } catch (error) {
     console.error("pogreska pri azuriranju: ", error);
     res.status(500).json({ message: "progreska pri azuriranju" });
