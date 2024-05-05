@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useState, useEffect } from "react";
 
 import Navbar from "../Shared/Navbar";
@@ -36,9 +36,9 @@ function Donations() {
   const [donatedDonations, setDonatedDonations] = useState([]);
 
   const sendDonationDetails = (donationDetails) => {
-    axios
+    axiosInstance
       .post(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/donations`,
+        `/donations`,
         donationDetails
       )
       .then((res) => {
@@ -53,11 +53,9 @@ function Donations() {
   };
 
   const updateDonationStatus = (donationId, newDonationStatus) => {
-    axios
+    axiosInstance
       .patch(
-        `http://localhost:${
-          import.meta.env.VITE_APP_PORT
-        }/donations/${donationId}`,
+        `/donations/${donationId}`,
         { donationStatus: newDonationStatus }
       )
       .then((res) => {
@@ -71,9 +69,9 @@ function Donations() {
   };
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/donations/offered`
+        `/donations/offered`
       )
       .then((response) => {
         setOfferedDonations(response.data.sveDonacijeTipa);
@@ -82,8 +80,8 @@ function Donations() {
         console.error("Error fetching offered donations:", error);
       });
 
-    axios
-      .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/donations/inNeed`)
+      axiosInstance
+      .get(`/donations/inNeed`)
       .then((response) => {
         setInNeedDonations(response.data.sveDonacijeTipa);
       })
@@ -91,9 +89,9 @@ function Donations() {
         console.error("Error fetching donations in need:", error);
       });
 
-    axios
+      axiosInstance
       .get(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/donations/donated`
+        `/donations/donated`
       )
       .then((response) => {
         setDonatedDonations(response.data.sveDonacijeTipa);

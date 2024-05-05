@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../axiosInstance";
 
 import { Button } from "../../Shared/shared";
 
@@ -27,7 +27,7 @@ function ZivotinjePrikazi({ animals }) {
   };
 
   const handleFinishEditing = (animalId) => {
-    axios.patch(`http://localhost:${import.meta.env.VITE_APP_PORT}/animals/${animalId}`, newAnimalDetails[animalId])
+    axiosInstance.patch(`/animals/${animalId}`, newAnimalDetails[animalId])
     .then(res => {
       alert(JSON.stringify(res.data.message));
       location.reload();

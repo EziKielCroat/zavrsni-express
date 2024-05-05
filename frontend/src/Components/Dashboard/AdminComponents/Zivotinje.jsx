@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../axiosInstance";
 
 import { Button } from "../../Shared/shared";
 import Modal from "../../Shared/Modal";
@@ -15,11 +15,8 @@ function Zivotinje() {
   };
 
   const sendAnimal = (animalDetails) => {
-    axios
-      .post(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/animals`,
-        animalDetails
-      )
+    axiosInstance
+      .post(`/animals`, animalDetails)
       .then((res) => {
         alert("Uspješno ste upisali životinju");
         toggleModal(!modalOpen);
@@ -32,8 +29,8 @@ function Zivotinje() {
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/animals`)
+    axiosInstance
+      .get(`/animals`)
       .then((res) => {
         if (res.data.sveZivotinje) {
           setAllAnimals(res.data.sveZivotinje);

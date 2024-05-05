@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button, Input, Label } from "../Shared/shared";
-
 
 const SettingsWrapper = styled.div`
   height: inherit;
@@ -27,7 +26,7 @@ const SettingsWindow = styled.div`
   padding-left: 8px;
   padding-right: 8px;
 
-  @media (min-width: 760px) { 
+  @media (min-width: 760px) {
     width: 600px;
   }
 `;
@@ -54,10 +53,6 @@ function Settings() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
-  const config = {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  };
-
   const logOut = () => {
     localStorage.removeItem("token");
     alert("Uspješno ste izlogirani, prebacujemo vas na login stranicu.");
@@ -65,14 +60,8 @@ function Settings() {
   };
 
   const saveNewInfo = () => {
-    axios
-      .put(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/user-information/${
-          userInformation._id
-        }`,
-        userInformation,
-        config
-      )
+    axiosInstance
+      .put(`/user-information/${userInformation._id}`, userInformation)
       .then((res) => {
         if (res.status === 201) {
           alert("Korisnicke informacije uspjesno spremljene!");
@@ -85,11 +74,8 @@ function Settings() {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/user-information`,
-        config
-      )
+    axiosInstance
+      .get(`/user-information`)
       .then((res) => setUserInformation(res.data))
       .catch((err) =>
         console.error("pogreska pri dohvacanju korisnickih podataka", err)

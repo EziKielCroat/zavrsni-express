@@ -2,7 +2,6 @@ import { Button } from "../Shared/shared";
 import { DONATION_STATUSES } from "./defaults";
 
 const DonationTable = ({ title, donations, updateDonationStatus }) => {
-  // poboljsaj izgled ovoga
   return (
     <div>
       <h2>{title}</h2>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import axiosInstance from "./axiosInstance";
 
 import Register from "./Components/Register/Register";
 import Login from "./Components/Login/Login";
@@ -26,14 +27,7 @@ const RequireAuthorization = ({ children }) => {
   } = useQuery(
     "authorization",
     async () => {
-      const response = await axios.get(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/protected-route`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axiosInstance.get(`/protected-route`);
       return response.data;
     },
     {

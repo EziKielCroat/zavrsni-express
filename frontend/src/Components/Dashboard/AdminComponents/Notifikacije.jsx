@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../../axiosInstance";
 import { useState, useEffect } from "react";
 
 import { Button } from "../../Shared/shared";
@@ -30,9 +30,9 @@ function Notifikacije() {
   const [notifications, setNotifications] = useState([]);
 
   const sendNewNotification = (notificationDetails) => {
-    axios
+    axiosInstance
       .post(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/notifications`,
+        `/notifications`,
         notificationDetails
       )
       .then((res) => {
@@ -46,8 +46,8 @@ function Notifikacije() {
   };
 
   const deleteNotification = (notificationId) => {
-    axios
-      .delete(`http://localhost:${import.meta.env.VITE_APP_PORT}/notifications/${notificationId}`)
+    axiosInstance
+      .delete(`/notifications/${notificationId}`)
       .then((res) => {
         alert("Uspješno ste izbrisali notifikaciju");
         location.reload();
@@ -58,8 +58,8 @@ function Notifikacije() {
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/notifications`)
+    axiosInstance
+      .get(`/notifications`)
       .then((res) => {
         setNotifications(res.data.sveNotifikacije);
       })

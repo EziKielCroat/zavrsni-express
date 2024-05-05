@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../../axiosInstance";
 import { useState, useEffect } from "react";
 
 import Modal from "../../Shared/Modal";
@@ -28,11 +28,8 @@ function Donations() {
   const [donatedDonations, setDonatedDonations] = useState([]);
 
   const sendDonationDetails = (donationDetails) => {
-    axios
-      .post(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/donations`,
-        donationDetails
-      )
+    axiosInstance
+      .post(`/donations`, donationDetails)
       .then((res) => {
         alert("Vaša donacija je uspješno zapisana.");
         location.reload();
@@ -44,11 +41,9 @@ function Donations() {
   };
 
   const updateDonationStatus = (donationId, newDonationStatus) => {
-    axios
+    axiosInstance
       .patch(
-        `http://localhost:${
-          import.meta.env.VITE_APP_PORT
-        }/donations/${donationId}`,
+        `/donations/${donationId}`,
         { donationStatus: newDonationStatus }
       )
       .then((res) => {
@@ -62,11 +57,9 @@ function Donations() {
   };
 
   const deleteDonation = (donationId) => {
-    axios
+    axiosInstance
       .delete(
-        `http://localhost:${
-          import.meta.env.VITE_APP_PORT
-        }/donations/${donationId}`
+        `/donations/${donationId}`
       )
       .then((res) => {
         alert("Uspješno ste izbrisali donaciju!");
@@ -79,9 +72,9 @@ function Donations() {
   };
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/donations/offered`
+        `/donations/offered`
       )
       .then((response) => {
         setOfferedDonations(response.data.sveDonacijeTipa);
@@ -90,8 +83,8 @@ function Donations() {
         console.error("Error fetching offered donations:", error);
       });
 
-    axios
-      .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/donations/inNeed`)
+      axiosInstance
+      .get(`/donations/inNeed`)
       .then((response) => {
         setInNeedDonations(response.data.sveDonacijeTipa);
       })
@@ -99,9 +92,9 @@ function Donations() {
         console.error("Error fetching donations in need:", error);
       });
 
-    axios
+      axiosInstance
       .get(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/donations/donated`
+        `/donations/donated`
       )
       .then((response) => {
         setDonatedDonations(response.data.sveDonacijeTipa);

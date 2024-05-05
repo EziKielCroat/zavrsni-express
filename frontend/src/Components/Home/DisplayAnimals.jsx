@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import styled from "styled-components";
 
 import FilterWindow from "./FilterWindow";
@@ -70,7 +70,7 @@ const Subtext = styled.span`
 const Title = styled.h2`
   font-weight: bold;
   font-size: 18px;
-`
+`;
 
 const Filter = () => {
   return (
@@ -148,16 +148,11 @@ function DisplayAnimals() {
 
   const resetAnimals = () => {
     setAnimals(originalAnimals);
-  }
+  };
 
   const updateAdoptionStatus = (animalId, newAdoptionStatus) => {
-    axios
-      .patch(
-        `http://localhost:${
-          import.meta.env.VITE_APP_PORT
-        }/animals/${animalId}`,
-        { adopted: newAdoptionStatus }
-      )
+    axiosInstance
+      .patch(`/animals/${animalId}`, { adopted: newAdoptionStatus })
       .then((res) => {
         alert("Uspješno ste usvojili životinju!");
         location.reload();
@@ -169,13 +164,12 @@ function DisplayAnimals() {
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/animals`)
+    axiosInstance.get(`/animals`)
       .then((res) => {
-        setAnimals(res.data.sveZivotinje)
+        setAnimals(res.data.sveZivotinje);
         setOriginalAnimals(res.data.sveZivotinje);
       })
-      .catch((err) => console.err("problem pri dohvacenju zivotinja", err));
+      .catch((err) => console.error("problem pri dohvacenju zivotinja", err));
   }, []);
 
   return (
@@ -203,13 +197,21 @@ function DisplayAnimals() {
                 {animal.adopted ? (
                   "Udomljena životinja!"
                 ) : (
-                  <Button onClick={() => {updateAdoptionStatus(animal._id, true)}}>Udomite</Button>
+                  <Button
+                    onClick={() => {
+                      updateAdoptionStatus(animal._id, true);
+                    }}
+                  >
+                    Udomite
+                  </Button>
                 )}
               </p>
             </AnimalWrapper>
           ))}
 
-          {animals.length === 0 && <Title>Nije pronađena životinja po tim fiterima!</Title>}
+        {animals.length === 0 && (
+          <Title>Nije pronađena životinja po tim fiterima!</Title>
+        )}
       </GridWrapper>
       {filterOpen && (
         <FilterWindow

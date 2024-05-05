@@ -1,10 +1,9 @@
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import styled from "styled-components";
 import { useState } from "react";
 
 import Navbar from "../Shared/Navbar";
 import { Button, Input } from "../Shared/shared";
-
 
 const Wrapper = styled.div`
   position: fixed;
@@ -104,11 +103,8 @@ function AboutUs() {
 
   const sendRequest = () => {
     if (userRequest.name && userRequest.email && userRequest.message) {
-      axios
-        .post(
-          `http://localhost:${import.meta.env.VITE_APP_PORT}/requests`,
-          userRequest
-        )
+      axiosInstance
+        .post(`/requests`, userRequest)
         .then((res) => {
           alert("Uspješno ste poslali svoj upit, neko će vam se javiti.");
           setUserRequest({
