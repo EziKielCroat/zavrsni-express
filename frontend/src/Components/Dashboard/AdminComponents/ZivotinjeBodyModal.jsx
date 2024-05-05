@@ -14,6 +14,7 @@ function ZivotinjeBodyModal({ sendAnimalDetails }) {
     age: 0,
     description: "",
     chipped: false,
+    adopted: false,
     lastCheckup: new Date(),
   });
 
@@ -99,6 +100,14 @@ function ZivotinjeBodyModal({ sendAnimalDetails }) {
         value={animalDetails.lastCheckup}
         onChange={(e) => {
           changeDetails(e.target.value, "lastCheckup");
+        }}
+      />
+      <Label>Udomljen/a? </Label>
+      <Input
+        type="checkbox"
+        value={animalDetails.adopted}
+        onChange={(e) => {
+          changeDetails(e.target.value, "adopted");
         }}
       />
       <Button

@@ -32,7 +32,8 @@ const zivotinjaSchema = new Schema ({
     age: { type: Number, required: true }, 
     description: { type: String, required: true }, 
     chipped: { type: Boolean, required: true }, 
-    lastCheckup: { type: Date, required: true } 
+    lastCheckup: { type: Date, required: true },
+    adopted: {type: Boolean, required: true},
 });
 
 export const Korisnik = model("Korisnik", korisnikShema, "korisnici");

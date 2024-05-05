@@ -60,6 +60,7 @@ function ZivotinjePrikazi({ animals }) {
           <th>Opis</th>
           <th>Čipiran</th>
           <th>Zadnji pregled</th>
+          <th>Udomljen/a</th>
         </tr>
       </thead>
       <tbody>
@@ -128,9 +129,9 @@ function ZivotinjePrikazi({ animals }) {
                   onChange={(e) => handleInputChange(e, animal._id, "chipped")}
                 />
               ) : animal.chipped ? (
-                "Yes"
+                "Da"
               ) : (
-                "No"
+                "Ne"
               )}
             </td>
             <td>
@@ -147,6 +148,21 @@ function ZivotinjePrikazi({ animals }) {
                 />
               ) : (
                 new Date(animal.lastCheckup).toLocaleDateString()
+              )}
+            </td>
+            <td>
+            {editingRows[animal._id] ? (
+                <input
+                  type="checkbox"
+                  checked={
+                    newAnimalDetails[animal._id]?.adopted || animal.adopted
+                  }
+                  onChange={(e) => handleInputChange(e, animal._id, "adopted")}
+                />
+              ) : animal.adopted ? (
+                "Da"
+              ) : (
+                "Ne"
               )}
             </td>
             <td>

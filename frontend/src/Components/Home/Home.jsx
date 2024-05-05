@@ -13,14 +13,11 @@ const Wrapper = styled.div`
 `;
 
 function Home() {
-  // filtriraj po statusu udomljenosti i po vrsti zivotinje
-  // grdi prikazi sve zivotinje (mozda slika za svaku)
-  // udomi me ispod neudomljenih
 
   return (
     <Wrapper>
       <Navbar />
-      <DisplayAnimals />
+      <DisplayAnimals/>
     </Wrapper>
   );
 }
