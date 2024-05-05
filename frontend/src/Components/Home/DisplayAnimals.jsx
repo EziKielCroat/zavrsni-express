@@ -28,6 +28,7 @@ const FilterText = styled.span`
   font-weight: 550;
   cursor: pointer;
   user-select: none;
+  width: fit-content;
 
   svg {
     padding-right: 4px;
