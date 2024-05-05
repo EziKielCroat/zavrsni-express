@@ -148,6 +148,24 @@ function DisplayAnimals() {
     setAnimals(originalAnimals);
   }
 
+  const updateAdoptionStatus = (animalId, newAdoptionStatus) => {
+    axios
+      .patch(
+        `http://localhost:${
+          import.meta.env.VITE_APP_PORT
+        }/animals/${animalId}`,
+        { adopted: newAdoptionStatus }
+      )
+      .then((res) => {
+        alert("Uspješno ste usvojili životinju!");
+        location.reload();
+      })
+      .catch((err) => {
+        console.error("progreska pri upisivanju donacije: ", err);
+        // implementiraj toast
+      });
+  };
+
   useEffect(() => {
     axios
       .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/animals`)
@@ -183,7 +201,7 @@ function DisplayAnimals() {
                 {animal.adopted ? (
                   "Udomljena životinja!"
                 ) : (
-                  <Button>Udomite</Button>
+                  <Button onClick={() => {updateAdoptionStatus(animal._id, true)}}>Udomite</Button>
                 )}
               </p>
             </AnimalWrapper>
