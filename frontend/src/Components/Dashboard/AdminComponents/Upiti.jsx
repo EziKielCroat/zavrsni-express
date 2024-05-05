@@ -18,7 +18,7 @@ function Upiti() {
 
   useEffect(() => {
     axiosInstance
-      .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/requests`)
+      .get(`/requests`)
       .then((res) => {
         setQueries(res.data.sviUpiti);
       })
