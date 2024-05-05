@@ -1,9 +1,10 @@
-import { Button, Input } from "../Register/Register";
 import styled from "styled-components";
-import { Label } from "../Notifications/ModalBody";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { Button, Input, Label } from "../Shared/shared";
+
 
 const SettingsWrapper = styled.div`
   height: inherit;

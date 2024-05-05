@@ -1,8 +1,8 @@
 import styled from "styled-components";
-
-import { Input, Button } from "../Register/Register";
-import { DONATION_STATUSES } from "./defaults";
 import { useState } from "react";
+
+import { Input, Button } from "../Shared/shared";
+import { DONATION_STATUSES } from "./defaults";
 
 const Label = styled.p`
   font-size: 14px;

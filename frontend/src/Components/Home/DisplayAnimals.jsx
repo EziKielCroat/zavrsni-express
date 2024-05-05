@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
+
 import FilterWindow from "./FilterWindow";
-import { Button } from "../Register/Register";
+import { Button } from "../Shared/shared";
 
 const DisplayWrapper = styled.div`
   height: inherit;

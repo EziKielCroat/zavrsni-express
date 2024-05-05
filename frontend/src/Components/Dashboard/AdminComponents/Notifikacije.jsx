@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import { Button } from "../../Register/Register";
+import { Button } from "../../Shared/shared";
 
 import NotifikacijePrikazi from "./NotifikacijePrikazi";
 import Modal from "../../Shared/Modal";

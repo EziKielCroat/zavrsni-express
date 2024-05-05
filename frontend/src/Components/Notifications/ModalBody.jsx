@@ -1,12 +1,6 @@
-import styled from "styled-components";
 
-import { Input, Button } from "../Register/Register";
+import { Input, Button, Label } from "../Shared/shared";
 import { useState } from "react";
-
-export const Label = styled.p`
-  font-size: 14px;
-  color: #483c58;
-`;
 
 function ModalBody({ sendNewNotification, isAdmin }) {
   const [notificationDetails, setNotificationDetails] = useState({

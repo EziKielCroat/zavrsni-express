@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-import { Button, Input } from "../../Register/Register";
-import { Label } from "../../Notifications/ModalBody";
+import { Button, Input, Label } from "../../Shared/shared";
 
 const AnimalTypeSelect = styled.select``;
 const AnimalTypeOption = styled.option``;

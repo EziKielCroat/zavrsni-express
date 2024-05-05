@@ -7,7 +7,7 @@ import Modal from "../Shared/Modal";
 import ModalBody from "./ModalBody";
 import DonationTable from "./DonationTable";
 
-import { Button } from "../Register/Register";
+import { Button } from "../Shared/shared";
 
 const Wrapper = styled.div`
   position: fixed;

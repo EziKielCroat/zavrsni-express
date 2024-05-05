@@ -1,4 +1,4 @@
-import { Button } from "../Register/Register";
+import { Button } from "../Shared/shared";
 import { DONATION_STATUSES } from "./defaults";
 
 const DonationTable = ({ title, donations, updateDonationStatus }) => {

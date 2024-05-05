@@ -1,4 +1,4 @@
-import { Button } from "../../Register/Register";
+import { Button } from "../../Shared/shared";
 import { DONATION_STATUSES } from "../../Donations/defaults";
 
 function DoniranoDonacije({ donations, updateDonationStatus, deleteDonation }) {

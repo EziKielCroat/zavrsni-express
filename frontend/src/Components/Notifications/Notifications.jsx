@@ -7,7 +7,7 @@ import Modal from "../Shared/Modal";
 import ModalBody from "./ModalBody";
 import NotificationDisplay from "./NotificationDisplay";
 
-import { Button } from "../Register/Register";
+import { Button } from "../Shared/shared";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -52,7 +52,6 @@ function Notifications() {
     axios
       .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/notifications`)
       .then((res) => {
-        console.log(res.data.sveNotifikacije);
         setNotifications(res.data.sveNotifikacije);
       })
       .catch((err) => {

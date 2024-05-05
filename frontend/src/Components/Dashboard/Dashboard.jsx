@@ -70,7 +70,7 @@ const options = {
 };
 
 function Dashboard() {
-  const [currentPage, setCurrentPage] = useState("zivotinje");
+  const [currentPage, setCurrentPage] = useState("Zivotinje");
 
   const togglePage = (newCurrentPage) => {
     setCurrentPage(newCurrentPage);

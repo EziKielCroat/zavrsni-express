@@ -8,7 +8,7 @@ import TrazimoDonacije from "./TrazimoDonacije";
 import NudiSeDonacije from "./NudiSeDonacije";
 import DoniranoDonacije from "./DoniranoDonacije";
 
-import { Button } from "../../Register/Register";
+import { Button } from "../../Shared/shared";
 
 const DonationsWrapper = styled.div`
   height: 60vh;

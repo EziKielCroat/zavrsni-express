@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Button } from "../../Register/Register";
+import { Button } from "../../Shared/shared";
 import Modal from "../../Shared/Modal";
 import ZivotinjeBodyModal from "./ZivotinjeBodyModal";
 import ZivotinjePrikazi from "./ZivotinjePrikazi";

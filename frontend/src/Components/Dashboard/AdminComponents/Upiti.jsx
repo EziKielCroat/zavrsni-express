@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Button } from "../../Register/Register";
+import { Button } from "../../Shared/shared";
 
 function Upiti() {
   const [queries, setQueries] = useState([]);

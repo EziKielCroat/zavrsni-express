@@ -1,11 +1,10 @@
 import axios from "axios";
 import styled from "styled-components";
+import { useState } from "react";
 
 import Navbar from "../Shared/Navbar";
-import { Input } from "../Register/Register";
-import { Button } from "../Register/Register";
+import { Button, Input } from "../Shared/shared";
 
-import { useState } from "react";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -109,7 +108,6 @@ function AboutUs() {
           userRequest
         )
         .then((res) => {
-          console.log(res);
           alert("Uspješno ste poslali svoj upit, neko će vam se javiti.");
           setUserRequest({
             name: "",

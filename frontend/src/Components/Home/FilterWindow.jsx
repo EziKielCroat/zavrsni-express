@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Label } from "../Notifications/ModalBody";
+import { Label } from "../Shared/shared";
 
 const WindowWrapper = styled.div`
   position: absolute;

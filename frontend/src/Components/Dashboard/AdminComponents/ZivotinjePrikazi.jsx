@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button } from "../../Register/Register";
+
+import { Button } from "../../Shared/shared";
 
 function ZivotinjePrikazi({ animals }) {
   const [editingRows, setEditingRows] = useState({});
@@ -26,13 +27,6 @@ function ZivotinjePrikazi({ animals }) {
   };
 
   const handleFinishEditing = (animalId) => {
-    console.log(
-      "New inputs for animal with ID",
-      animalId,
-      ":",
-      newAnimalDetails[animalId]
-    );
-
     axios.patch(`http://localhost:${import.meta.env.VITE_APP_PORT}/animals/${animalId}`, newAnimalDetails[animalId])
     .then(res => {
       alert(JSON.stringify(res.data.message));
