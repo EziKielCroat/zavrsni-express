@@ -13,11 +13,17 @@ const Wrapper = styled.div`
 `;
 
 function Home() {
+  // this check is implemented because of a weird issue I encountered where randomly the token wouldn't get set into localStorage
+  const isAuthenticated = localStorage.getItem("token"); 
 
   return (
     <Wrapper>
-      <Navbar />
-      <DisplayAnimals/>
+      {isAuthenticated && (
+        <>
+          <Navbar />
+          <DisplayAnimals />
+        </>
+      )}
     </Wrapper>
   );
 }

@@ -146,7 +146,7 @@ function Register() {
             Krejirate svoj račun
           </Button>
 
-          <Label onClick={() => {navigate("/register")}} style={{cursor: "pointer", display: "flex", justifyContent: "center"}}>Imate račun? Ulogiraj te se</Label>
+          <Label onClick={() => {navigate("/login")}} style={{cursor: "pointer", display: "flex", justifyContent: "center"}}>Imate račun? Ulogiraj te se</Label>
 
         </FieldsWrapper>
       </Container>
