@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import Navbar from "../Shared/Navbar";
 import Modal from "../Shared/Modal";
@@ -28,35 +29,36 @@ const NotificationsWrapper = styled.div`
   padding-left: 50px;
 `;
 
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
+
 function Notifications() {
   const [modalOpen, setModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
   const sendNewNotification = (notificationDetails) => {
-    axios
+    axiosInstance
       .post(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/notifications`,
+        `/notifications`,
         notificationDetails
       )
       .then((res) => {
-        alert("Uspješno ste upisali novu notifikaciju!");
+        notifySucess("Uspješno ste upisali novu notifikaciju!");
         location.reload();
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju notifikacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri upisivanju nove notifikacije ${err.message}` );
       });
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:${import.meta.env.VITE_APP_PORT}/notifications`)
+    axiosInstance
+      .get(`/notifications`)
       .then((res) => {
-        setNotifications(res.data.sveNotifikacije);
+        setNotifications(res.data.allNotifications);
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju notifikacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri dohvaćanju notifikacija: ${err.message}` );
       });
   }, []);
 
@@ -82,7 +84,10 @@ function Notifications() {
             setModalOpen(!modalOpen);
           }}
         >
-          <ModalBody sendNewNotification={sendNewNotification} isAdmin={false}/>
+          <ModalBody
+            sendNewNotification={sendNewNotification}
+            isAdmin={false}
+          />
         </Modal>
       )}
     </Wrapper>

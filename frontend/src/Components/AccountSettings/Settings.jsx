@@ -2,6 +2,7 @@ import styled from "styled-components";
 import axiosInstance from "../../axiosInstance";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { Button, Input, Label } from "../Shared/shared";
 
@@ -44,6 +45,9 @@ const Divider = styled.div`
   margin-bottom: 16px;
 `;
 
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
+
 function Settings() {
   const [userInformation, setUserInformation] = useState({
     username: "",
@@ -55,7 +59,7 @@ function Settings() {
 
   const logOut = () => {
     localStorage.removeItem("token");
-    alert("Uspješno ste izlogirani, prebacujemo vas na login stranicu.");
+    notifySucess("Uspješno ste izlogirani, prebacujemo vas na login stranicu.");
     navigate("/login");
   };
 
@@ -64,12 +68,15 @@ function Settings() {
       .put(`/user-information/${userInformation._id}`, userInformation)
       .then((res) => {
         if (res.status === 201) {
-          alert("Korisnicke informacije uspjesno spremljene!");
-          location.reload();
+          notifySucess("Korisnicke informacije uspjesno spremljene!");
+
+          setTimeout(() => {
+            location.reload();
+          }, 500);
         }
       })
       .catch((err) =>
-        console.error("pogreska pri spremanju novih podataka", err)
+        notify(`Pogreška pri spremanju korisničih podataka ${err.message}`)
       );
   };
 
@@ -78,7 +85,7 @@ function Settings() {
       .get(`/user-information`)
       .then((res) => setUserInformation(res.data))
       .catch((err) =>
-        console.error("pogreska pri dohvacanju korisnickih podataka", err)
+        notify(`Pogreška pri dohvaćanju korisničih podataka ${err.message}`)
       );
   }, []);
 

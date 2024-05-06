@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { PAGES } from "./Navbar";
+import { Close } from "./icons";
 
 const MobileNavWrapper = styled.div`
   position: fixed;
@@ -44,12 +45,14 @@ const CloseButton = styled.button`
 function MobileNavbar({ open, onClose }) {
   return (
     <MobileNavWrapper open={open}>
-      <CloseButton onClick={onClose}>x</CloseButton>
+      <CloseButton onClick={onClose}>
+        <Close />
+      </CloseButton>
       {Object.entries(PAGES).map(([label, path]) => (
         <MobileNavLink to={path} key={path} onClick={onClose}>
           {label}
         </MobileNavLink>
-      ))}  
+      ))}
     </MobileNavWrapper>
   );
 }

@@ -1,6 +1,9 @@
 
 import { Input, Button, Label } from "../Shared/shared";
 import { useState } from "react";
+import toast from "react-hot-toast";
+
+const notify = (msg) => toast.error(msg);
 
 function ModalBody({ sendNewNotification, isAdmin }) {
   const [notificationDetails, setNotificationDetails] = useState({
@@ -16,7 +19,7 @@ function ModalBody({ sendNewNotification, isAdmin }) {
     ) {
       sendNewNotification(notificationDetails);
     } else {
-      // toast implementiraj, nepravilni podaci upisani za notifikaciju
+      notify("Trenutačni podaci nisu dovoljni za upisati notifikaciju.")
     }
   };
 

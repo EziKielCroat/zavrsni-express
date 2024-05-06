@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import axiosInstance from "../../../axiosInstance";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 import Modal from "../../Shared/Modal";
 import ModalBody from "../../Donations/ModalBody";
@@ -20,6 +21,9 @@ const DonationsWrapper = styled.div`
   overflow-y: auto;
 `;
 
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
+
 function Donations() {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -31,76 +35,83 @@ function Donations() {
     axiosInstance
       .post(`/donations`, donationDetails)
       .then((res) => {
-        alert("Vaša donacija je uspješno zapisana.");
-        location.reload();
+        notifySucess("Vaša donacija je uspješno zapisana.");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
         setModalOpen(!modalOpen);
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju donacije: ", err);
+        notify(`Pogreška pri upisivanju donacije ${err.message}`);
       });
   };
 
   const updateDonationStatus = (donationId, newDonationStatus) => {
     axiosInstance
-      .patch(
-        `/donations/${donationId}`,
-        { donationStatus: newDonationStatus }
-      )
+      .patch(`/donations/${donationId}`, { donationStatus: newDonationStatus })
       .then((res) => {
-        alert("Uspješno ste donirali!");
-        location.reload();
+        notifySucess("Uspješno ste ažurirali status donacije!");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju donacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri ažuriranju donacije ${err.message}`);
       });
   };
 
   const deleteDonation = (donationId) => {
     axiosInstance
-      .delete(
-        `/donations/${donationId}`
-      )
+      .delete(`/donations/${donationId}`)
       .then((res) => {
-        alert("Uspješno ste izbrisali donaciju!");
-        location.reload();
+        notifySucess("Uspješno ste izbrisali donaciju!");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       })
       .catch((err) => {
-        console.error("progreska pri brisanju donacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri brisanju donacije ${err.message}`);
       });
   };
 
   useEffect(() => {
     axiosInstance
-      .get(
-        `/donations/offered`
-      )
+      .get(`/donations/offered`)
       .then((response) => {
-        setOfferedDonations(response.data.sveDonacijeTipa);
+        if (response.status === 200) {
+          setOfferedDonations([]);
+        } else {
+          setOfferedDonations(response.data.allDonationsOfType);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching offered donations:", error);
+        notify(`Pogreška dohvaćanju nuđenih donacija ${error.message}`);
       });
 
-      axiosInstance
+    axiosInstance
       .get(`/donations/inNeed`)
       .then((response) => {
-        setInNeedDonations(response.data.sveDonacijeTipa);
+        if (response.status === 200) {
+          setInNeedDonations([]);
+        } else {
+          setInNeedDonations(response.data.allDonationsOfType);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching donations in need:", error);
+        notify(`Pogreška dohvaćanju traženih donacija ${error.message}`);
       });
 
-      axiosInstance
-      .get(
-        `/donations/donated`
-      )
+    axiosInstance
+      .get(`/donations/donated`)
       .then((response) => {
-        setDonatedDonations(response.data.sveDonacijeTipa);
+        if (response.status === 200) {
+          setDonatedDonations([]);
+        } else {
+          setDonatedDonations(response.data.allDonationsOfType);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching donated donations:", error);
+        notify(`Pogreška dohvaćanju doniranih donacija ${error.message}`);
       });
   }, []);
 

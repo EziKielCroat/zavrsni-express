@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../axiosInstance";
+import toast from "react-hot-toast";
 
 import { Button } from "../../Shared/shared";
+
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
 
 function Upiti() {
   const [queries, setQueries] = useState([]);
@@ -10,19 +14,21 @@ function Upiti() {
     axiosInstance
       .delete(`/requests/${queryId}`)
       .then((res) => {
-        alert("Upit je uspješno obrisan!");
-        location.reload();
+        notifySucess("Upit je uspješno obrisan!");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => notify(`Pogreška pri brisanju upita ${err.message}`));
   };
 
   useEffect(() => {
     axiosInstance
       .get(`/requests`)
       .then((res) => {
-        setQueries(res.data.sviUpiti);
+        setQueries(res.data.allQueries);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => notify(`Pogreška pri dohvaćanju upita ${err.message}`));
   }, []);
 
   return (

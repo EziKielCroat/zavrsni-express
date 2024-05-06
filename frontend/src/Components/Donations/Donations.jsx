@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import axiosInstance from "../../axiosInstance";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 import Navbar from "../Shared/Navbar";
 import Modal from "../Shared/Modal";
@@ -28,6 +29,9 @@ const DonationsWrapper = styled.div`
   padding-left: 50px;
 `;
 
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
+
 function Donations() {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -37,67 +41,67 @@ function Donations() {
 
   const sendDonationDetails = (donationDetails) => {
     axiosInstance
-      .post(
-        `/donations`,
-        donationDetails
-      )
+      .post(`/donations`, donationDetails)
       .then((res) => {
-        alert("Vaša donacija je uspješno zapisana.");
+        notifySucess("Vaša donacija je uspješno zapisana.");
         location.reload();
         setModalOpen(!modalOpen);
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju donacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri upisivanju donacije ${err.message}`);
       });
   };
 
   const updateDonationStatus = (donationId, newDonationStatus) => {
     axiosInstance
-      .patch(
-        `/donations/${donationId}`,
-        { donationStatus: newDonationStatus }
-      )
+      .patch(`/donations/${donationId}`, { donationStatus: newDonationStatus })
       .then((res) => {
-        alert("Uspješno ste donirali!");
+        notifySucess("Uspješno ste donirali!");
         location.reload();
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju donacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri upisivanju statusa donacije ${err.message}`);
       });
   };
 
   useEffect(() => {
     axiosInstance
-      .get(
-        `/donations/offered`
-      )
+      .get(`/donations/offered`)
       .then((response) => {
-        setOfferedDonations(response.data.sveDonacijeTipa);
+        if(response.status === 200) {
+          setDonatedDonations([]);
+        } else {
+          setOfferedDonations(response.data.allDonationsOfType);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching offered donations:", error);
+        notify(`Pogreška pri dohvaćanju nuđenih donacija ${error.message}`);
       });
 
-      axiosInstance
+    axiosInstance
       .get(`/donations/inNeed`)
       .then((response) => {
-        setInNeedDonations(response.data.sveDonacijeTipa);
+        if(response.status === 200) {
+          setDonatedDonations([]);
+        } else {
+          setInNeedDonations(response.data.allDonationsOfType);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching donations in need:", error);
+        notify(`Pogreška pri dohvaćanju traženih donacija ${error.message}`);
       });
 
-      axiosInstance
-      .get(
-        `/donations/donated`
-      )
+    axiosInstance
+      .get(`/donations/donated`)
       .then((response) => {
-        setDonatedDonations(response.data.sveDonacijeTipa);
+        if(response.status === 200) {
+          setDonatedDonations([]);
+        } else {
+          setDonatedDonations(response.data.allDonationsOfType);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching donated donations:", error);
+        notify(`Pogreška pri dohvaćanju doniranih donacija ${error.message}`);
       });
   }, []);
 
@@ -132,6 +136,7 @@ function Donations() {
           <ModalBody sendDonationDetails={sendDonationDetails} />
         </Modal>
       )}
+
     </Wrapper>
   );
 }

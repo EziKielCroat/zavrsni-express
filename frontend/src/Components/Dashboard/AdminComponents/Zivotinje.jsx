@@ -6,6 +6,9 @@ import Modal from "../../Shared/Modal";
 import ZivotinjeBodyModal from "./ZivotinjeBodyModal";
 import ZivotinjePrikazi from "./ZivotinjePrikazi";
 
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
+
 function Zivotinje() {
   const [modalOpen, setModalOpen] = useState(false);
   const [allAnimals, setAllAnimals] = useState([]);
@@ -18,13 +21,12 @@ function Zivotinje() {
     axiosInstance
       .post(`/animals`, animalDetails)
       .then((res) => {
-        alert("Uspješno ste upisali životinju");
+        notifySucess("Uspješno ste upisali životinju");
         toggleModal(!modalOpen);
         location.reload();
       })
       .catch((err) => {
-        console.error(err);
-        // implementiraj toast
+        notify(`Pogreška pri upisivanju životinje ${err.message}`);
       });
   };
 
@@ -32,13 +34,12 @@ function Zivotinje() {
     axiosInstance
       .get(`/animals`)
       .then((res) => {
-        if (res.data.sveZivotinje) {
-          setAllAnimals(res.data.sveZivotinje);
+        if (res.data.allAnimals) {
+          setAllAnimals(res.data.allAnimals);
         }
       })
       .catch((err) => {
-        console.error(err);
-        // implementiraj toast
+        notify(`Pogreška pri dohvaćanju životinje ${err.message}`);
       });
   }, []);
 

@@ -82,7 +82,6 @@ function Dashboard() {
     <Wrapper id="modal-root">
       <Navbar />
       <DisplayWrapper>
-        {/*treba bit responzivno */}
         <HeaderWrapper>
           {Object.keys(options).map((page) => (
             <Title

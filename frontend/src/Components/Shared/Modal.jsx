@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import ReactDOM from "react-dom";
 
-// Styled components
+import { Close } from "./icons";
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -43,7 +44,7 @@ const Modal = ({ title, children, onClose }) => {
       <ModalContent>
         <ModalHeader>
           <h2>{title}</h2>
-          <CloseButton onClick={onClose}>Close</CloseButton>
+          <CloseButton onClick={onClose}><Close /></CloseButton>
         </ModalHeader>
         <div>{children}</div>
       </ModalContent>

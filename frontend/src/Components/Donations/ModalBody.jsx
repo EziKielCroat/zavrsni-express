@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 import { Input, Button } from "../Shared/shared";
 import { DONATION_STATUSES } from "./defaults";
@@ -12,6 +13,8 @@ const Label = styled.p`
 const DonationTypeSelect = styled.select``;
 
 const DonationOption = styled.option``;
+
+const notify = (msg) => toast.error(msg);
 
 function ModalBody({ sendDonationDetails }) {
   const [donationDetails, setDonationDetails] = useState({
@@ -29,7 +32,7 @@ function ModalBody({ sendDonationDetails }) {
     ) {
       sendDonationDetails(donationDetails);
     } else {
-      // toast implementiraj, nepravilni podaci upisani za donaciju
+      notify("Nepravilni podaci upisani za donaciju.")
     }
   };
 
@@ -82,6 +85,7 @@ function ModalBody({ sendDonationDetails }) {
       >
         Upišite vašu donaciju
       </Button>
+
     </>
   );
 }

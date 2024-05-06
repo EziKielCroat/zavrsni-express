@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import { Button, Input, Label } from "../../Shared/shared";
 
 const AnimalTypeSelect = styled.select``;
 const AnimalTypeOption = styled.option``;
+
+const notify = (msg) => toast.error(msg);
 
 function ZivotinjeBodyModal({ sendAnimalDetails }) {
   const [animalDetails, setAnimalDetails] = useState({
@@ -34,7 +37,7 @@ function ZivotinjeBodyModal({ sendAnimalDetails }) {
         lastCheckup: new Date(),
       });
     } else {
-      // implementiraj toast , nepravilni podaci upisani za upis životinje
+      notify("Trenutačni podaci nisu dovojni za upis životinje.")
     }
   };
 

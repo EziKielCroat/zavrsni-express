@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import axiosInstance from "../../../axiosInstance";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 import { Button } from "../../Shared/shared";
 
 import NotifikacijePrikazi from "./NotifikacijePrikazi";
 import Modal from "../../Shared/Modal";
 import ModalBody from "../../Notifications/ModalBody";
+
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
 
 const NotifWrapper = styled.div`
   width: auto;
@@ -31,17 +35,15 @@ function Notifikacije() {
 
   const sendNewNotification = (notificationDetails) => {
     axiosInstance
-      .post(
-        `/notifications`,
-        notificationDetails
-      )
+      .post(`/notifications`, notificationDetails)
       .then((res) => {
-        alert("Uspješno ste upisali novu notifikaciju!");
-        location.reload();
+        notifySucess("Uspješno ste upisali novu notifikaciju!");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju notifikacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri upisivanju notifikacije ${err.message}`);
       });
   };
 
@@ -49,11 +51,13 @@ function Notifikacije() {
     axiosInstance
       .delete(`/notifications/${notificationId}`)
       .then((res) => {
-        alert("Uspješno ste izbrisali notifikaciju");
-        location.reload();
+        notifySucess("Uspješno ste izbrisali notifikaciju");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       })
       .catch((err) => {
-        console.error("pogreska pri brisanju notifikaciju", err); // implementiraj toast
+        notify(`Pogreška pri brisanju notifikacije ${err.message}`);
       });
   };
 
@@ -61,11 +65,10 @@ function Notifikacije() {
     axiosInstance
       .get(`/notifications`)
       .then((res) => {
-        setNotifications(res.data.sveNotifikacije);
+        setNotifications(res.data.allNotifications);
       })
       .catch((err) => {
-        console.error("progreska pri upisivanju notifikacije: ", err);
-        // implementiraj toast
+        notify(`Pogreška pri dohvaćanju notifikacija ${err.message}`);
       });
   }, []);
 

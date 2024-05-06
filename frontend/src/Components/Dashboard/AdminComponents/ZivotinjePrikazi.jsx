@@ -1,7 +1,11 @@
 import { useState } from "react";
 import axiosInstance from "../../../axiosInstance";
+import toast from "react-hot-toast";
 
 import { Button } from "../../Shared/shared";
+
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
 
 function ZivotinjePrikazi({ animals }) {
   const [editingRows, setEditingRows] = useState({});
@@ -27,12 +31,17 @@ function ZivotinjePrikazi({ animals }) {
   };
 
   const handleFinishEditing = (animalId) => {
-    axiosInstance.patch(`/animals/${animalId}`, newAnimalDetails[animalId])
-    .then(res => {
-      alert(JSON.stringify(res.data.message));
-      location.reload();
-    })
-    .catch(err => console.error(err));  
+    axiosInstance
+      .patch(`/animals/${animalId}`, newAnimalDetails[animalId])
+      .then(() => {
+        notifySucess("Uspješno ste ažurirali životinju.");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
+      })
+      .catch((err) =>
+        notify(`Pogreška pri ažuriranju životinje ${err.message}`)
+      );
 
     handleToggleEditing(animalId);
   };
@@ -145,7 +154,7 @@ function ZivotinjePrikazi({ animals }) {
               )}
             </td>
             <td>
-            {editingRows[animal._id] ? (
+              {editingRows[animal._id] ? (
                 <input
                   type="checkbox"
                   checked={

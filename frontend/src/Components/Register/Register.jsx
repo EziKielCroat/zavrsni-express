@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Input } from "../Shared/shared";
+import toast from "react-hot-toast";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -47,6 +48,8 @@ const FieldsWrapper = styled.div`
 const Label = styled.span`
   color: rgba(26, 7, 16, 0.42);
 `;
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
 
 function Register() {
   const [userInfo, setUserInfo] = useState({
@@ -73,19 +76,17 @@ function Register() {
     ) {
       registerAccount();
     } else {
-      // current data is not sufficent to make an account
-      // ovo bi napravia sa toastom(err handlnig)
+      notify("Trenutačni podaci nisu dovoljni za napravit račun");
     }
   };
 
   const registerAccount = () => {
-    axios
-      .post(
-        `http://localhost:${import.meta.env.VITE_APP_PORT}/register`,
-        userInfo
-      )
+    axiosInstance
+      .post(`/register`, userInfo)
       .then((res) => {
-        alert("Uspješno ste se registrirali! Bit će te prebaćeni na prijavu. ");
+        notifySucess(
+          "Uspješno ste se registrirali! Bit će te prebaćeni na prijavu. "
+        );
         setUserInfo({
           username: "",
           email: "",
@@ -94,11 +95,10 @@ function Register() {
         });
         setTimeout(() => {
           navigate("/login");
-        }, 2000);
+        }, 500);
       })
       .catch((error) => {
-        console.error("Registration failed:", error);
-        // TOAST IMplementiraj
+        notify(`Registracija nije uspjela ${error.message}`);
       });
   };
 
@@ -141,9 +141,13 @@ function Register() {
             onClick={() => {
               checkDetails();
             }}
+            style={{marginBottom: "20px"}}
           >
             Krejirate svoj račun
           </Button>
+
+          <Label onClick={() => {navigate("/register")}} style={{cursor: "pointer", display: "flex", justifyContent: "center"}}>Imate račun? Ulogiraj te se</Label>
+
         </FieldsWrapper>
       </Container>
     </Wrapper>

@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -78,6 +79,9 @@ const Button = styled.button`
   }
 `;
 
+const notifySucess = (msg) => toast.success(msg);
+const notify = (msg) => toast.error(msg);
+
 function Login() {
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -97,18 +101,17 @@ function Login() {
     if (userInfo.email && userInfo.password) {
       logUserIn();
     } else {
-      // current data is not sufficent to log you into an account
-      // ovo bi napravia sa toastom(err handlnig)
+      notify("Trenutačni podaci nisu dovoljni za ulogirati se.")
     }
   };
 
   const logUserIn = () => {
-    axios
-      .post(`http://localhost:${import.meta.env.VITE_APP_PORT}/login`, userInfo)
+    axiosInstance
+      .post(`/login`, userInfo)
       .then((res) => {
         if (res.data.token) {
           localStorage.setItem("token", res.data.token);
-          alert("Uspješno ste se ulogirali, bit će te prebaćeni na home");
+          notifySucess("Uspješno ste se ulogirali, bit će te prebaćeni na home");
         }
         setUserInfo({
           username: "",
@@ -121,8 +124,7 @@ function Login() {
         }, 150);
       })
       .catch((error) => {
-        console.error("Login failed:", error);
-        // TOAST IMplementiraj
+        notify(`Pogreška pri ulogiranju ${error.message}`);
       });
   };
 
@@ -151,9 +153,12 @@ function Login() {
             onClick={() => {
               checkDetails();
             }}
+            style={{marginBottom: "20px"}}
           >
             Ulogirajte se u svoj račun
           </Button>
+
+          <Label onClick={() => {navigate("/register")}} style={{cursor: "pointer", display: "flex", justifyContent: "center"}}>Nemate račun? Registriraj te se</Label>
         </FieldsWrapper>
       </Container>
     </Wrapper>

@@ -1,7 +1,7 @@
-import axios from "axios";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import axiosInstance from "./axiosInstance";
+import { Toaster } from "react-hot-toast";
 
 import Register from "./Components/Register/Register";
 import Login from "./Components/Login/Login";
@@ -102,6 +102,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
+      <Toaster position="bottom-right" reverseOrder={false} />
     </QueryClientProvider>
   );
 }

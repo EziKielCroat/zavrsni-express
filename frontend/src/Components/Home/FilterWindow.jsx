@@ -1,5 +1,7 @@
 import styled from "styled-components";
+
 import { Label } from "../Shared/shared";
+import { Close } from "../Shared/icons";
 
 const WindowWrapper = styled.div`
   position: absolute;
@@ -63,7 +65,7 @@ function FilterWindow({
           <option key={key} value={value}>{key}</option>
         ))}
       </select> <br /> <br />
-      <button onClick={handleClose}>Close</button>
+      <Close onClick={handleClose}></Close>
     </WindowWrapper>
   );
 }

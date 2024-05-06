@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { Trash } from "../../Shared/icons";
+
 const NotificationGrid = styled.div`
   margin-top: 15px;
   display: grid;
@@ -47,7 +49,7 @@ function NotifikacijePrikazi({ notifications, deleteNotification }) {
               deleteNotification(notification._id);
             }}
           >
-            Izbriši notifikaciju
+            <Trash />
           </DeleteText>
         </NotificationWrapper>
       ))}
@@ -63,7 +65,7 @@ function NotifikacijePrikazi({ notifications, deleteNotification }) {
               deleteNotification(notification._id);
             }}
           >
-            Izbriši notifikaciju
+           <Trash />
           </DeleteText>
         </NotificationWrapper>
       ))}
