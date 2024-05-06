@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import axiosInstance from "./axiosInstance";
-import { Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 import Register from "./Components/Register/Register";
 import Login from "./Components/Login/Login";
@@ -13,6 +14,8 @@ import AccountSettings from "./Components/AccountSettings/AccountSettings";
 import Dashboard from "./Components/Dashboard/Dashboard";
 
 const queryClient = new QueryClient();
+
+const notify = (msg) => toast(msg);
 
 const RequireAuthentication = ({ children }) => {
   const isAuthenticated = localStorage.getItem("token");
@@ -44,6 +47,14 @@ const RequireAuthorization = ({ children }) => {
 };
 
 function App() {
+  const [userId, setUserId] = useState("");
+
+  useEffect(()=>{
+    axiosInstance.get("/user-information/id")
+    .then(res => setUserId(res.data))
+    .catch(err => notify(`Pogreška pri dohvaćanju korisničih informacija ${err.message}`))
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -55,7 +66,7 @@ function App() {
             path="/"
             element={
               <RequireAuthentication>
-                <Home />
+                <Home userId={userId}/>
               </RequireAuthentication>
             }
           />
@@ -96,7 +107,7 @@ function App() {
             path="/dashboard"
             element={
               <RequireAuthorization>
-                <Dashboard />
+                <Dashboard userId={userId}/>
               </RequireAuthorization>
             }
           />
